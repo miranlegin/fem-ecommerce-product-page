@@ -10,6 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./media-wide.css">
+  <link rel="stylesheet" href="./media-narrow.css">
   <script src="https://unpkg.com/vue@3.0.11/dist/vue.global.js"></script>
 </head>
 
@@ -17,68 +19,53 @@
   <div class="wrapper" id="app">
     <header class="header">
 
-      <button><img src="./icons/icon-menu.svg" alt=""></button>
-      <a href="#"><img src="./images/logo.svg" alt=""></a>
+      <button class="btn-menu-open">
+        <div class="sr-only">Show navigation</div>
+        <svg class="icon icon-icon-menu" aria-hidden="true">
+          <use xlink:href="./icons/symbol-defs.svg#icon-icon-menu"></use>
+        </svg>
+      </button>
+      <a class="logo-button" href="#"><img src="./images/logo.svg" alt="Sneakers logo"></a>
       <nav class="navigation">
-        <button><img src="./icons/icon-close.svg" alt=""></button>
+        <button class="btn-menu-close">
+          <div class="sr-only">Hide navigation</div>
+          <svg class="icon icon-icon-close">
+            <use xlink:href="./icons/symbol-defs.svg#icon-icon-close"></use>
+          </svg>
+        </button>
         <ul class="menu">
-          <li><a href="">Collections</a></li>
-          <li><a href="">Men</a></li>
-          <li><a href="">Women</a></li>
-          <li><a href="">About</a></li>
-          <li><a href="">Contact</a></li>
+          <li><a href="#">Collections</a></li>
+          <li><a href="#">Men</a></li>
+          <li><a href="#">Women</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
         </ul>
       </nav>
-      <button v-on:click="showCart = !showCart">
-        <img src="./icons/icon-cart.svg" alt="">
-        <div class="pill">{{ cartItems }}</div>
+      <button class="btn-cart" v-on:click="showCart = !showCart">
+        <div class="sr-only">Show cart</div>
+        <svg class="icon icon-icon-cart">
+          <use xlink:href="./icons/symbol-defs.svg#icon-icon-cart"></use>
+        </svg>
+
+        <Transition name="pill">
+          <div v-if="cartItems > 0" class="pill">{{ cartItems }}</div>
+        </Transition>
+
       </button>
-      <a href="#">
-        <img src="./images/image-avatar.png" width="50" height="50" alt="">
+      <a class="avatar" href="#">
+        <img src="./images/image-avatar.png" width="50" height="50" alt="User avatar">
       </a>
     </header>
 
-
-
     <main class="main">
-      <Transition>
-        <div v-show="showCart" class="cart">
-          <div class="cart-title">Cart</div>
-          <div class="cart-content">
-
-            <div v-if="cartItems > 0">
-              <div class="cart-product">
-                <img class="cart-thumbnail" src="./images/image-product-1-thumbnail.jpg" alt="" width="50" height="50">
-                <div class="cart-item">
-                  <span>{{ productName }}</span><br>
-                  <span>{{ discountPriceString }} x {{ cartItems }}</span> <strong> {{ calculateTotal
-                    }}</strong>
-                </div>
-                <button v-on:click="removeFromCart" class="cart-delete">
-                  <img src="./icons/icon-delete.svg" alt="">
-                </button>
-              </div>
-              <button class="submit">Checkout</button>
-            </div>
-            <div v-else class="cart-empty">
-              <div>Your cart is empty.</div>
-            </div>
-
-          </div>
-        </div>
-      </Transition>
-
-
-
       <div class="product-gallery">
         <img class="product-image" v-bind:src="image" alt="">
 
         <div class="product-thumbnails">
           <img v-for="image in gallery" :key="image.id" v-bind:src="image.thumb" v-on:click="updateImage(image.src)"
-            alt="">
+            alt="" />
         </div>
       </div>
-
 
       <div class="product-data">
 
@@ -91,23 +78,70 @@
         <div class="product-price">
           <span class="price-with-discount">{{ discountPriceString }}</span>
           <span class="discount">{{ discountString }}</span>
+          <s class="price-full">{{ priceFullString }}</s>
         </div>
-        <s class="price-full">{{ priceFullString }}</s>
 
         <div class="submit-form">
           <fieldset class="quantity-selector">
-            <button v-on:click="decreaseQuantity"><img src="./icons/icon-minus.svg" alt=""></button>
-            <input class="quatity-input" type="tel" size="3" v-bind:value="quantity">
-            <button v-on:click="increaseQuantity"><img src="./icons/icon-plus.svg" alt=""></button>
+            <button v-on:click="decreaseQuantity">
+              <div class="sr-only">Decrease quantity</div>
+              <svg class="icon icon-icon-minus" aria-hidden="true">
+                <use xlink:href="./icons/symbol-defs.svg#icon-icon-minus"></use>
+              </svg>
+
+            </button>
+            <label class="sr-only" for="quantity-input">Quantity</label>
+            <input id="quantity-input" type="tel" maxlength="2" size="2" v-model.number="quantity"
+              class="quantity-input">
+            <!-- <div class="quantity-input">{{ quantity }}</div> -->
+            <button v-on:click="increaseQuantity">
+              <div class="sr-only">Increase quantity</div>
+              <svg class="icon icon-icon-plus" aria-hidden="true">
+                <use xlink:href="./icons/symbol-defs.svg#icon-icon-plus"></use>
+              </svg>
+            </button>
           </fieldset>
 
-          <button v-on:click="addToCart" class="submit"><img src="./icons/icon-cart.svg" alt=""> Add to cart</button>
+          <button v-on:click="addToCart" class="submit">
+            <svg class="icon icon-icon-cart" aria-hidden="true">
+              <use xlink:href="./icons/symbol-defs.svg#icon-icon-cart"></use>
+            </svg>
+            <span>Add to cart</span>
+          </button>
+
+          <button class="sr-only" v-on:click="showCart = !showCart">View cart</button>
         </div>
 
-        <div>Quantity: {{ quantity }}; Cart: {{ cartItems }}</div>
-
-
       </div>
+
+
+      <Transition name="cart">
+        <div v-show="showCart" class="cart">
+          <div class="cart-title">Cart</div>
+          <div v-if="cartItems > 0" class="cart-content">
+            <div class="cart-product">
+              <img class="cart-thumbnail" src="./images/image-product-1-thumbnail.jpg" alt="" width="50" height="50">
+              <div class="cart-item">
+                <span>{{ productName }}</span><br>
+                <span>{{ discountPriceString }} x {{ cartItems }}</span> <strong> {{ calculateTotal
+                  }}</strong>
+              </div>
+              <button v-on:click="removeFromCart" class="cart-delete">
+                <div class="sr-only">Remove from cart</div>
+                <svg class="icon icon-icon-delete" aria-hidden="true">
+                  <use xlink:href="./icons/symbol-defs.svg#icon-icon-delete"></use>
+                </svg>
+              </button>
+            </div>
+            <button class="submit">Checkout</button>
+          </div>
+          <div v-else class="cart-content">
+            <div class="cart-empty">
+              <div>Your cart is empty.</div>
+            </div>
+          </div>
+        </div>
+      </Transition>
 
     </main>
   </div>

@@ -1,0 +1,41 @@
+/* 48em = 768px */
+
+@media (min-width: 48em) {
+  .btn-menu-open {
+    display: none;
+  }
+
+  .navigation {
+    display: block;
+  }
+
+  .main {
+    grid-template-columns:
+      clamp(1.5rem, -1.5rem + 6vw, 3rem)
+      minmax(19em, 1fr)
+      repeat(2, calc(10% - 3rem))
+      minmax(19em, 1fr)
+      clamp(1.5rem, -1.5rem + 6vw, 3rem);
+
+    /* must be padding because of cart that is popping up*/
+    padding-top: min(6rem, 8vmin);
+  }
+
+  .product-gallery {
+    grid-column: 2 / span 1;
+  }
+
+  .product-image {
+    border-radius: 1em;
+    aspect-ratio: 1;
+  }
+
+  .product-thumbnails {
+    display: grid;
+  }
+
+  .product-data {
+    grid-column: 5 / span 1;
+    padding: 0;
+  }
+}

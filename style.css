@@ -1,3 +1,5 @@
+/* START RESET */
+
 /* Box sizing rules */
 *,
 *::before,
@@ -73,6 +75,10 @@ select {
   }
 }
 
+/* END RESET */
+
+/* START CUSTOM PROPERTIES */
+
 :root {
   --white: hsl(0, 0%, 100%);
   --black: hsla(0, 0%, 0%, 0.75);
@@ -85,9 +91,100 @@ select {
   --blue-400: hsl(220, 14%, 75%);
   --blue-100: hsl(223, 64%, 98%);
 
+  --divider: hsl(219, 35%, 92%);
+
   --fs-base: 1rem;
   --ff-base: 'Kumbh Sans', sans-serif;
+
+  --min-button-size: 44px;
 }
+
+/* END CUSTOM PROPERTIES */
+
+/* START ADDITIONAL RESET */
+
+fieldset,
+button {
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+button {
+  min-width: var(--min-button-size);
+  min-height: var(--min-button-size);
+  cursor: pointer;
+
+  background-color: transparent;
+  /* for removing the highlight */
+  -webkit-tap-highlight-color: transparent;
+}
+
+button .icon {
+  display: block;
+  margin-inline: auto;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* END ADDITIONAL RESET */
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+/* ==========================================
+Single-colored icons can be modified like so:
+.icon-name {
+  font-size: 32px;
+  color: red;
+}
+========================================== */
+
+.icon-icon-previous {
+  width: 0.6669921875em;
+}
+
+.icon-icon-next {
+  width: 0.72265625em;
+}
+
+.icon-icon-minus {
+  width: 3em;
+}
+
+.icon-icon-menu {
+  width: 1.06640625em;
+}
+
+.icon-icon-cart {
+  width: 1.099609375em;
+}
+
+.icon-icon-close {
+  width: 0.93359375em;
+}
+
+.icon-icon-delete {
+  width: 0.875em;
+}
+
+/* START GENERAL STYLING */
 
 body {
   font-family: var(--ff-base);
@@ -100,41 +197,24 @@ body {
   outline: 2px solid hotpink;
 }
 
-.header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.navigation {
-  margin-right: auto;
-}
-
-.menu {
-  display: flex;
-  flex-direction: row;
-}
-
 .main {
   position: relative;
   display: grid;
-  /* grid-template-columns: repeat(auto-fill, minmax(10rem, 28rem)); */
-  grid-template-columns:
-    3rem
-    minmax(307px, 1fr)
-    repeat(2, calc(10% - 3rem))
-    minmax(307px, 1fr)
-    3rem;
+  /* grid-template-columns: repeat(auto-fill, minmax(min(100%, 34rem), 1fr)); */
+
   justify-content: space-between;
   align-items: center;
+
+  /* padding-top: 5rem; */
 }
 
 .cart {
   position: absolute;
   top: 0;
   right: 0;
-  width: 100%;
-  max-width: 360px;
+  width: calc(100% - 1rem);
+  max-width: 22.5rem;
+  margin: 0.5rem;
   border-radius: 0.625rem;
 
   background-color: var(--white);
@@ -142,6 +222,9 @@ body {
 }
 
 .cart-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   padding: 1.5rem 1.5rem 2rem;
 }
 
@@ -149,33 +232,32 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding-block: 1.5rem;
 }
 
 .product-gallery {
-  grid-column: 2 / span 1;
-
   display: grid;
-  row-gap: 2rem;
+  row-gap: clamp(1rem, -0.7778rem + 3.7037vw, 2rem);
 }
 
 .product-image {
-  border-radius: 1em;
+  aspect-ratio: 1.25;
+  object-fit: cover;
 }
 
 .product-thumbnails {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(87px, 1fr));
-  column-gap: 2rem;
+  display: none;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: clamp(1rem, -0.7778rem + 3.7037vw, 2rem);
 }
 
 .product-thumbnails img {
+  width: 100%;
   border-radius: 0.625em;
   cursor: pointer;
 }
 
 .product-data {
-  grid-column: 5 / span 1;
+  padding: 1.5rem;
 }
 
 .product-price {
@@ -183,26 +265,176 @@ body {
   flex-direction: row;
   align-items: flex-start;
   column-gap: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .submit-form {
   display: flex;
   flex-direction: row;
-  column-gap: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+  max-width: 27.8125rem;
 }
 
 .quantity-selector {
-  flex: 0 1 auto;
+  flex-grow: 2;
   display: flex;
-  margin: 0;
-  border: 0;
   border-radius: 0.625rem;
-  padding: 0;
 
   background-color: var(--blue-100);
 }
 
+/* 
+
+HEADER ELEMENTS 
+
+*/
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* column-gap: clamp(1rem, 0.0458rem + 4.0712vw, 2rem); */
+  column-gap: 0.625rem;
+  border-bottom: 1px solid var(--divider);
+  padding-top: 1.75rem;
+  padding-bottom: 2rem;
+
+  padding-block: 0.75rem;
+  padding-inline: 0.5rem;
+  padding-right: 0.875rem;
+  padding-left: 0.625rem;
+}
+
+.navigation {
+  margin-right: auto;
+  display: none;
+}
+
+.menu {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  padding-left: 1.5rem;
+  column-gap: 2rem;
+}
+
+.menu a {
+  font-weight: 400;
+  font-size: 15px;
+  /* line-height: 1.73; */
+  text-decoration: none;
+
+  color: var(--blue-700);
+}
+
+.btn-menu-open {
+  font-size: 15px;
+  color: var(--blue-700);
+}
+
+.logo-button {
+}
+
+.btn-menu-close {
+  display: none;
+}
+
+.btn-cart {
+  flex: 0 0 auto;
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  font-size: clamp(1.25rem, 0.8922rem + 1.5267vw, 1.625rem);
+  cursor: pointer;
+  margin-left: auto;
+
+  background-color: transparent;
+  color: var(--blue-900);
+}
+
+@media (hover: hover) {
+  .btn-cart {
+    color: var(--blue-700);
+    transition: 0.25s;
+  }
+
+  .btn-cart:hover {
+    color: var(--blue-900);
+  }
+}
+
+body.pop .btn-cart {
+  animation: pop 0.35s;
+}
+
+.btn-cart > * {
+  grid-area: 1 / -1;
+}
+
+.pill {
+  align-self: flex-start;
+  justify-self: flex-end;
+  min-width: 1.25rem;
+  font-weight: 700;
+  font-size: 0.625rem;
+  /* to nudge if from the borders */
+  margin: 0.25rem;
+  border-radius: 50vw;
+  padding-inline: 0.375rem;
+
+  background-color: var(--primary-400);
+  color: var(--white);
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  /* flex: 0 0 auto; */
+  min-width: var(--min-button-size);
+  min-height: var(--min-button-size);
+}
+
+.avatar img {
+  border-radius: 50%;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  width: clamp(1.5rem, -0.0506rem + 6.6158vw, 3.125rem);
+  height: auto;
+  aspect-ratio: 1;
+
+  transition: outline 0.25s;
+}
+
+.avatar:hover img {
+  outline-color: var(--primary-400);
+}
+
+/* 
+
+END HEADER ELEMENTS 
+
+*/
+
+/* 
+
+START CART ELEMENTS 
+
+*/
+
+/* 
+
+END CART ELEMENTS 
+
+*/
+
 /* --- TYPOGRAPHY --- */
+
+.cart-delete .icon {
+  margin-inline: auto;
+}
 
 .product-brand {
   font-weight: 700;
@@ -218,6 +450,8 @@ body {
   font-weight: 700;
   font-size: clamp(1.75rem, 1.1422rem + 2.5932vw, 2.75rem);
   line-height: 1.1;
+  margin-top: 0.5em;
+  margin-bottom: 0.75em;
 
   color: var(--blue-900);
 }
@@ -258,30 +492,46 @@ p {
 
 .quantity-selector button {
   width: max-content;
-  margin: 0;
-  border: 0;
   padding: 1rem;
   cursor: pointer;
 
   background-color: transparent;
+  color: var(--primary-400);
 }
 
-.quatity-input {
-  display: inline-block;
-  margin: 0;
-  border: 0;
-  padding: 0 1rem;
+.quantity-selector button:hover {
+  opacity: 0.75;
+}
+
+.quantity-selector .icon {
+  transition: transform 0.15s, opacity 0.25s;
+  max-width: 0.75rem;
+}
+
+.quantity-selector button:active .icon {
+  transform: scale(1.5);
+}
+
+.quantity-input {
+  flex-grow: 1;
+  min-width: 5ch;
   font-weight: 700;
   line-height: 3.5;
   text-align: center;
+  margin: 0;
+  border: 0;
+  padding: 0;
 
   background-color: transparent;
   color: var(--blue-900);
 }
 
+.number .quantity-input {
+  animation: pop 0.25s;
+}
+
 .submit {
-  width: 100%;
-  flex-grow: 1;
+  flex-grow: 3;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -292,22 +542,29 @@ p {
   font-size: 1rem;
   line-height: 3.5;
   cursor: pointer;
-
-  margin: 0;
-  border: 0;
   border-radius: 0.625rem;
-  padding: 0;
+  padding-inline: 3rem;
 
   background-color: var(--primary-400);
   color: var(--white);
+
+  transition: transform 0.15s, background-color 0.3s;
 }
 
-.submit:focus-within {
-  animation: click 0.2s ease;
+.submit:hover {
+  background-color: #ffab6a;
+}
+
+.submit:active {
+  transform: scaleX(1.025) scaleY(0.95);
+}
+
+.submit .icon {
+  margin-inline: 0;
 }
 
 .cart-title {
-  border-bottom: 1px solid var(--blue-400);
+  border-bottom: 1px solid var(--divider);
   padding: 1.5rem;
   font-weight: 700;
 
@@ -339,26 +596,58 @@ p {
   color: var(--blue-900);
 }
 
-@keyframes click {
+/* 
+
+ANIMATIONS AND TRANSITIONS 
+
+*/
+
+/* animation for btn-cart when numbers change */
+@keyframes pop {
   0%,
   100% {
     transform: scale(1);
-    opacity: 1;
   }
 
-  50% {
-    transform: scale(0.975);
-    opacity: 0.95;
+  35% {
+    transform: scale(1.25);
   }
 }
 
-/* we will explain what these classes do next! */
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s ease;
+/* PILL TRANSITIONS */
+
+.pill-enter-active,
+.pill-leave-active {
+  transition: 0.25s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
-.v-enter-from,
-.v-leave-to {
+.pill-enter-from,
+.pill-leave-to {
   opacity: 0;
+  transform: translateY(-1rem);
+}
+
+.pill-enter-to,
+.pill-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* CART TRANSITION */
+
+.cart-enter-active,
+.cart-leave-active {
+  transition: 0.25s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.cart-enter-from,
+.cart-leave-to {
+  opacity: 0;
+  transform: translateY(-1.5rem);
+}
+
+.cart-enter-to,
+.cart-leave-from {
+  opacity: 1;
+  transform: translateY(0);
 }

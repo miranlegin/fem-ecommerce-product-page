@@ -37,38 +37,68 @@ const app = Vue.createApp({
   methods: {
     increaseQuantity() {
       this.quantity++;
+
+      this.updateClass('number', 300);
     },
+
     decreaseQuantity() {
       if (this.quantity < 1) return;
       this.quantity--;
+
+      this.updateClass('number', 300);
     },
+
     addToCart() {
-      if (this.quantity < 1) return;
+      if (this.quantity < 1 || isNaN(this.quantity)) return;
+
       this.cartItems += this.quantity;
       this.quantity = 0;
+
+      this.updateClass('pop', 1000);
     },
+
     removeFromCart() {
       this.cartItems = 0;
+
+      this.updateClass('pop', 1000);
+
+      setTimeout(() => {
+        this.showCart = false;
+      }, '1500');
     },
+
     updateImage(clickedImage) {
       this.image = clickedImage;
+    },
+
+    updateClass(className, duration) {
+      const body = document.querySelector('body');
+
+      body.classList.add(className);
+      setTimeout(() => {
+        body.classList.remove(className);
+      }, duration);
     },
   },
   computed: {
     priceFullString() {
       return `$${this.priceFull.toFixed(2)}`;
     },
+
     discountString() {
       return `${this.discount}%`;
     },
+
     discountPrice() {
       const val = ((100 - this.discount) / 100) * this.priceFull;
       return `${val}`;
     },
+
     discountPriceString() {
       const val = ((100 - this.discount) / 100) * this.priceFull;
       return `$${val.toFixed(2)}`;
     },
+
     calculateTotal() {
       this.amountTotal = this.discountPrice * this.cartItems;
       return `$${this.amountTotal.toFixed(2)}`;
